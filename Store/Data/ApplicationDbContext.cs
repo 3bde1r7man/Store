@@ -38,7 +38,17 @@ namespace Store.Data
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            
+            builder.Property(u => u.FirstName)
+                .HasMaxLength(50)
+                .IsRequired();
+            builder.Property(u => u.LastName)
+                .HasMaxLength(50)
+                .IsRequired();
+            builder.Property(u => u.Address)
+                .HasMaxLength(255)
+                .IsRequired();
+            builder.Property(u => u.Balance)
+                .IsRequired();
         }
     }
 }
