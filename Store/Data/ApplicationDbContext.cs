@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Store.Models;
+using System.Reflection.Emit;
 
 namespace Store.Data
 {
@@ -10,6 +11,8 @@ namespace Store.Data
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<UserOrder> UserOrders { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -43,6 +46,22 @@ namespace Store.Data
             builder.Entity<IdentityRole>().HasData(admin, user);
 
             builder.ApplyConfiguration(new UserConfiguration());
+
+
+            builder.Entity<UserOrder>()
+                .HasOne(uo => uo.User)
+                .WithMany() 
+                .HasForeignKey(uo => uo.UserId);
+
+            builder.Entity<UserOrder>()
+                .HasOne(uo => uo.Order)
+                .WithMany() 
+                .HasForeignKey(uo => uo.OrderId);
+
+            builder.Entity<UserOrder>()
+                .HasOne(uo => uo.Product)
+                .WithMany() 
+                .HasForeignKey(uo => uo.ProductId);
         }
     }
 
