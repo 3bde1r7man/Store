@@ -163,9 +163,17 @@ namespace Store.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductExists(int id)
+		public IActionResult CategoryProducts(int id)
+		{
+			var products = _context.Products.Where(p => p.CategoryId == id).ToList();
+			return View(products);
+		}
+
+		private bool ProductExists(int id)
         {
             return _context.Products.Any(e => e.Id == id);
         }
+
+       
     }
 }
