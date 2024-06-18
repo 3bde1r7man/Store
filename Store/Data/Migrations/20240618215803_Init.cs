@@ -206,7 +206,7 @@ namespace Store.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Price = table.Column<double>(type: "REAL", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
-                    CategoryId = table.Column<int>(type: "INTEGER", nullable: true),
+                    CategoryId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -219,31 +219,25 @@ namespace Store.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserOrders",
+                name: "orderProducts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    UserId = table.Column<string>(type: "TEXT", nullable: true),
                     OrderId = table.Column<int>(type: "INTEGER", nullable: true),
                     ProductId = table.Column<int>(type: "INTEGER", nullable: true),
                     Quantity = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserOrders", x => x.Id);
+                    table.PrimaryKey("PK_orderProducts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserOrders_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_UserOrders_Orders_OrderId",
+                        name: "FK_orderProducts_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_UserOrders_Products_ProductId",
+                        name: "FK_orderProducts_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id");
@@ -254,8 +248,8 @@ namespace Store.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "7c574edb-4818-4907-b8e2-b4ed34b0789d", null, "Admin", "ADMIN" },
-                    { "de725d1e-9bf4-4f46-93ae-078c5ae07e3f", null, "User", "USER" }
+                    { "b70bf57d-b8ae-43c1-8c3c-f740ad08e81f", null, "Admin", "ADMIN" },
+                    { "f0fd52b4-3646-43b0-a47e-cb1e0e026cd3", null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -296,6 +290,16 @@ namespace Store.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_orderProducts_OrderId",
+                table: "orderProducts",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_orderProducts_ProductId",
+                table: "orderProducts",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",
                 table: "Orders",
                 column: "UserId");
@@ -304,26 +308,6 @@ namespace Store.Migrations
                 name: "IX_Products_CategoryId",
                 table: "Products",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_OrderId",
-                table: "Products",
-                column: "OrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserOrders_OrderId",
-                table: "UserOrders",
-                column: "OrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserOrders_ProductId",
-                table: "UserOrders",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserOrders_UserId",
-                table: "UserOrders",
-                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -345,22 +329,22 @@ namespace Store.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "UserOrders");
+                name: "orderProducts");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Products");
-
-            migrationBuilder.DropTable(
-                name: "Categories");
-
-            migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
         }
     }
 }
