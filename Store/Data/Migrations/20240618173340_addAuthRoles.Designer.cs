@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Store.Data;
 
@@ -10,9 +11,11 @@ using Store.Data;
 namespace Store.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240618173340_addAuthRoles")]
+    partial class addAuthRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.5");
@@ -45,13 +48,13 @@ namespace Store.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7e7c395c-d6bf-4fa8-a158-3b37b6687586",
+                            Id = "a15ab94e-ca56-44c3-9537-21de9cc11528",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "3f122b4a-5065-4723-a3e9-b71a9a76c6f8",
+                            Id = "e4930433-448f-42d0-862f-5015e49f0dd8",
                             Name = "User",
                             NormalizedName = "USER"
                         });
