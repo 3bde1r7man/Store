@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Store.Models;
@@ -29,9 +30,17 @@ namespace Store.Data
             optionsBuilder.UseSqlite($"Data Source={databasePath}");
         }
 
-        public void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            var admin = new IdentityRole("Admin");
+            admin.NormalizedName = "ADMIN";
+
+            var user = new IdentityRole("User");
+            user.NormalizedName = "USER";
+
+            builder.Entity<IdentityRole>().HasData(admin, user);
 
             builder.ApplyConfiguration(new UserConfiguration());
         }
