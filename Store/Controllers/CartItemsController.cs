@@ -26,7 +26,6 @@ namespace Store.Controllers
 
             if (item != null)
             {
-                // if the item is already there  update the quantity
                 var temp = cart.Find(x => x.Id == item.Id);
                 if (temp != null)
                 {
