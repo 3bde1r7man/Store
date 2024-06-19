@@ -45,13 +45,13 @@ namespace Store.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7c574edb-4818-4907-b8e2-b4ed34b0789d",
+                            Id = "b70bf57d-b8ae-43c1-8c3c-f740ad08e81f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "de725d1e-9bf4-4f46-93ae-078c5ae07e3f",
+                            Id = "f0fd52b4-3646-43b0-a47e-cb1e0e026cd3",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -205,6 +205,30 @@ namespace Store.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("Store.Models.OrderProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("orderProducts");
+                });
+
             modelBuilder.Entity("Store.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -226,7 +250,6 @@ namespace Store.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
 
                     b.ToTable("Products");
                 });
@@ -314,35 +337,6 @@ namespace Store.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Store.Models.UserOrder", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("Quantity")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserOrders");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -403,6 +397,21 @@ namespace Store.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Store.Models.OrderProduct", b =>
+                {
+                    b.HasOne("Store.Models.Order", "Order")
+                        .WithMany("orderProducts")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("Store.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Store.Models.Product", b =>
                 {
                     b.HasOne("Store.Models.Category", "Category")
@@ -412,30 +421,9 @@ namespace Store.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Store.Models.UserOrder", b =>
-                {
-                    b.HasOne("Store.Models.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId");
-
-                    b.HasOne("Store.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
-                    b.HasOne("Store.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Store.Models.Order", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("orderProducts");
                 });
 #pragma warning restore 612, 618
         }

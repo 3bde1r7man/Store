@@ -1,21 +1,26 @@
 ﻿@{
-	ViewData["Title"] = "Category Products";
+    ViewData["Title"] = "Category Products";
 }
 <div class="text-center">
-	<h1 class="display-4">@ViewData["Title"]</h1>
+    <h1 class="display-4">@ViewData["Title"]</h1>
 </div>
-
 
 @model IEnumerable<Store.Models.Product>
 
-@foreach(var item in Model)
+@foreach (var item in Model)
 {
-	<div class="card" style="width: 18rem;">
-		<div class="card-body">
-			<h5 class="card-title">@item.Name</h5>
-			<p class="card-text">@item.Description</p>
-			<p class="card-text">@item.Price $</p>
-			<a href="#" class="btn btn-primary">Go somewhere</a>
-		</div>
-	</div>
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">@item.Name</h5>
+            <p class="card-text">@item.Description</p>
+            <p class="card-text">$@item.Price</p>
+
+            <button class="btn btn-primary"
+                    onclick="addItemToCart(@item.Id, '@item.Name', @item.Price)">
+                Add to Cart
+            </button>
+        </div>
+    </div>
 }
+
+<script src="~/js/site.js"></script>
