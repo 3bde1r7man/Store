@@ -3,11 +3,13 @@
 
 // Write your JavaScript code.
 
+// add item to cart
 function addItemToCart(id, name, price) {
     const item = { Id: id, Name: name, Price: price };
     addToCart(item);
 }
 
+// add item to cart
 function addToCart(item) {
     fetch('/CartItems/Add', {
         method: 'POST',
@@ -23,43 +25,59 @@ function addToCart(item) {
         .catch(error => console.error('Error:', error));
 }
 
+// update cart display with new cart data
 function updateCartDisplay(cart) {
-    const cartitems = document.getElementById('cart-items');
-    cartitems.innerHTML = '';
-    let totalPrice = 0;
+    const cartContainer = document.getElementById('cart');
 
-    cart.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+    if (cart.length === 0) {
+        cartContainer.innerHTML = '<p>Your cart is empty</p>';
+    } else {
+        const cartItemsContainer = document.getElementById('cart-items');
+        cartItemsContainer.innerHTML = '';
+        let totalPrice = 0;
 
-        const quantityDiv = document.createElement('div');
-        quantityDiv.textContent = 'Quantity: ';
+        cart.forEach(item => {
+            const li = document.createElement('li');
+            li.className = 'd-flex align-items-center mb-4';
 
-        const quantityInput = document.createElement('input');
-        quantityInput.type = 'number';
-        quantityInput.min = '1';
-        quantityInput.value = item.quantity;
-        quantityInput.onchange = () => updateQuantity(item.id, quantityInput.value);
+            const itemNamePriceDiv = document.createElement('div');
+            itemNamePriceDiv.className = 'me-auto';
+            itemNamePriceDiv.textContent = `${item.name} - $${item.price.toFixed(2)}`;
 
-        quantityDiv.appendChild(quantityInput);
-        li.appendChild(quantityDiv);
+            const quantityDiv = document.createElement('div');
+            quantityDiv.className = 'mx-3';
+            quantityDiv.innerHTML = 'Quantity: ';
 
-        const removeButton = document.createElement('button');
-        removeButton.textContent = 'Remove';
-        removeButton.className = 'btn btn-danger mb-lg-4'; // Add btn classes
-        removeButton.onclick = () => removeFromCart(item.id);
+            const quantityInput = document.createElement('input');
+            quantityInput.type = 'number';
+            quantityInput.min = '1';
+            quantityInput.value = item.quantity;
+            quantityInput.className = 'form-control d-inline-block w-25';
+            quantityInput.onchange = () => updateQuantity(item.id, quantityInput.value);
 
-        li.appendChild(removeButton);
-        cartitems.appendChild(li);
+            quantityDiv.appendChild(quantityInput);
 
-        totalPrice += item.price * item.quantity;
-    });
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove';
+            removeButton.className = 'btn btn-danger mb-lg-4';
+            removeButton.onclick = () => removeFromCart(item.id);
 
-    document.getElementById('total-price').textContent = totalPrice.toFixed(2);
+            li.appendChild(itemNamePriceDiv);
+            li.appendChild(quantityDiv);
+            li.appendChild(removeButton);
+
+            cartItemsContainer.appendChild(li);
+
+            totalPrice += item.price * item.quantity;
+        });
+
+        document.getElementById('total-price').textContent = totalPrice.toFixed(2);
+    }
 }
 
 
-// Assuming removeFromCart function is defined somewhere to handle removing items from the cart
+
+// remove item from cart
 function removeFromCart(id) {
     fetch(`/CartItems/Remove?id=${id}`, {
         method: 'POST'
@@ -71,7 +89,7 @@ function removeFromCart(id) {
         .catch(error => console.error('Error removing item:', error));
 }
 
-// Function to update quantity
+// update quantity of item in cart
 function updateQuantity(id, quantity) {
     fetch(`/CartItems/UpdateQuantity?id=${id}&quantity=${quantity}`, {
         method: 'POST'
