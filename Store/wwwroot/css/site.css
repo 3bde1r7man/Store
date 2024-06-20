@@ -38,24 +38,23 @@ body {
     border-radius: 10px;
 }
 
-    /* Active state for nav links */
-    .nav-link.active {
-        background-color: #67a7ff;
-        border-radius: 5px;
-        height: fit-content;
-        padding: 3%;
-    }
+/* Active state for nav links */
+.nav-link.active {
+    background-color: #67a7ff;
+    border-radius: 5px;
+    height: fit-content;
+    padding: 3%;
+}
 
-    /* Hover effect for nav links */
-    .nav-link:hover {
-        background-color: rgba(35, 0, 235, 0.1);
-        border-radius: 10px;
-        height: fit-content;
-    }
+/* Hover effect for nav links */
+.nav-link:hover {
+    background-color: rgba(35, 0, 235, 0.1);
+    border-radius: 10px;
+    height: fit-content;
+}
 
 .btn {
     border-radius: 20px;
-    margin-top : 22px;
 }
 
 .form-control {

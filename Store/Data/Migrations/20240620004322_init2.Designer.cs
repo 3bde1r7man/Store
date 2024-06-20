@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Store.Data;
 
@@ -10,9 +11,11 @@ using Store.Data;
 namespace Store.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240620004322_init2")]
+    partial class init2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.5");
@@ -45,13 +48,13 @@ namespace Store.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b70bf57d-b8ae-43c1-8c3c-f740ad08e81f",
+                            Id = "2583d6a8-fe4d-4f83-b181-3bec74ad31e4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "f0fd52b4-3646-43b0-a47e-cb1e0e026cd3",
+                            Id = "d1eda791-08b4-4aaf-b8e6-57d63aa6d9dc",
                             Name = "User",
                             NormalizedName = "USER"
                         });
