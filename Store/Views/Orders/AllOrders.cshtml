@@ -6,46 +6,48 @@
 
 <h1>All Orders</h1>
 
-<table class="table">
+<div class="form-group">
+    <div class="input-group">
+        <div class="col-md-10">
+            <input type="search" id="searchTerm" class="form-control" onkeyup="onSearch()" placeholder="Search for orders with User / Status" />
+        </div>
+        
+        <div class="col-md-2 form-floating">
+            <select id="searchBy" class="form-control">
+                <option value="User">User</option>
+                <option value="Status">Status</option>
+            </select>
+            <label class="form-label">Search By</label>
+        </div>
+	</div>
+</div>
+
+<table class="table" id="ordersTable">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalPrice)
-            </th>
-            <th></th>
+            <th>@Html.DisplayNameFor(model => model.First().User)</th>
+            <th>@Html.DisplayNameFor(model => model.First().Date)</th>
+            <th>@Html.DisplayNameFor(model => model.First().Status)</th>
+            <th>@Html.DisplayNameFor(model => model.First().TotalPrice)</th>
+            <th class="text-center">Actions</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalPrice)
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="username">@Html.DisplayFor(modelItem => item.User.UserName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                <td class="status">@Html.DisplayFor(modelItem => item.Status)</td>
+                <td>@Html.DisplayFor(modelItem => item.TotalPrice)</td>
                 <td class="text-center">
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-                    
                 </td>
-        </tr>
-}
+            </tr>
+        }
     </tbody>
 </table>
+
+<script src="~/js/site.js"></script>

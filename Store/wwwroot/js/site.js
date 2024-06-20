@@ -100,3 +100,21 @@ function updateQuantity(id, quantity) {
         })
         .catch(error => console.error('Error updating quantity:', error));
 }
+
+
+const onSearch = () => {
+    const input = document.querySelector("#searchTerm");
+    const filter = input.value.toUpperCase();
+    const searchBy = document.querySelector("#searchBy").value;
+    const rows = document.querySelectorAll("#ordersTable tbody tr");
+
+    rows.forEach(row => {
+        let text;
+        if (searchBy === "User") {
+            text = row.querySelector(".username").textContent.toUpperCase();
+        } else if (searchBy === "Status") {
+            text = row.querySelector(".status").textContent.toUpperCase();
+        }
+        row.style.display = text.includes(filter) ? "" : "none";
+    });
+}
