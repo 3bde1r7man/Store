@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Store.Models.Order>
 
 @{
-    ViewData["Title"] = "Order history";
+    ViewData["Title"] = "All Orders";
 }
 
-<h1>Order history</h1>
+<h1>All Orders</h1>
 
 <table class="table">
     <thead>
@@ -21,7 +21,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.TotalPrice)
             </th>
-            <th class="text-center">Actions</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -39,14 +39,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TotalPrice)
             </td>
-            <td class="text-center">
-                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
-                @if (User.IsInRole("Admin"))
-                {     
+                <td class="text-center">
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-                }
-            </td>
+                    
+                </td>
         </tr>
 }
     </tbody>
