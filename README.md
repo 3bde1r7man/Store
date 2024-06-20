@@ -17,22 +17,24 @@
 ### User Features
 
 - **Registration & Authentication**
-  - Register with email confirmation
-  - Secure login system
+    - Register with email confirmation
+    - Secure login system
 - **Shopping**
-  - Browse products
-  - Add products to the shopping cart
-  - Checkout process
+    - Browse products
+    - Add products to the shopping cart
+    - Checkout process
 - **Order Management**
-  - View order history
-  - View order details
+    - View order history
+    - View order details
 
 ### Admin Features
 
 - **Category Management**
-  - Add, edit, delete, and view details of categories
+    - Add, edit, delete, and view details of categories
 - **Product Management**
-  - Add, edit, delete, and view details of products
+    - Add, edit, delete, and view details of products
+- **Order Management**
+    - Edit, Delete, and view details of orders
 
 ## Installation
 
@@ -40,27 +42,27 @@ To set up the Store project locally, follow these steps:
 
 1. **Clone the Repository**
 
-   ```bash
-   git clone https://github.com/3bde1r7man/Store.git
-   ```
+```bash
+git clone https://github.com/3bde1r7man/Store.git
+```
 
 2. **Navigate to the Project Directory**
 
-   ```bash
-   cd store
-   ```
+```bash
+cd store
+```
 
 3. **Restore NuGet Packages**
 
-   ```bash
-   dotnet restore
-   ```
+```bash
+dotnet restore
+```
 
 6. **Run the Application**
 
-   ```bash
-   dotnet run
-   ```
+```bash
+dotnet run
+```
 
 ## Usage
 
@@ -77,7 +79,9 @@ To set up the Store project locally, follow these steps:
 
 1. **Login as Admin**
 2. **Manage Categories and Products**
-   - Add, edit, delete, and view details
+    - Add, edit, delete, and view details
+3. **Manage All Orders**
+    - Edit order status, delete, and view details
 
 ## Technologies
 
