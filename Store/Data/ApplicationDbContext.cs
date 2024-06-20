@@ -47,6 +47,12 @@ namespace Store.Data
 
             builder.ApplyConfiguration(new UserConfiguration());
 
+
+            builder.Entity<Order>()
+            .HasMany(o => o.orderProducts)
+            .WithOne(op => op.Order)
+            .HasForeignKey(op => op.OrderId)
+            .OnDelete(DeleteBehavior.Cascade);
         }
     }
 

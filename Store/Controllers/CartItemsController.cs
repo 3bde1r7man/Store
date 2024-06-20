@@ -14,8 +14,15 @@ namespace Store.Controllers
     {
         private static List<CartItem> cart = new List<CartItem>();
 
-		// GET: CartItems
-		public IActionResult Index()
+        private readonly ApplicationDbContext _context;
+
+        public CartItemsController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        // GET: CartItems
+        public IActionResult Index()
 		{
 			return View(cart);
 		}
@@ -67,8 +74,54 @@ namespace Store.Controllers
         [HttpPost]
         public IActionResult Checkout()
         {
+           
+
+            var user = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = "You must be logged in to checkout";
+                return View("Index", cart);
+            }
+            
+            Order order = new Order
+            {
+                Date = DateTime.Now,
+                UserId = user.Id,
+                User = user,
+                Status = "Pending",
+                TotalPrice = cart.Sum(x => x.Price * x.Quantity)
+            };
+            if (user.Balance < order.TotalPrice)
+            {
+                ViewBag.ErrorMessage = "Insufficient balance";
+                return View("Index", cart);
+            }
+            user.Balance -= order.TotalPrice;
+            var orderProducts = createOrderProductList(order);
+            _context.Orders.Add(order);
+            _context.orderProducts.AddRange(orderProducts);
+            _context.SaveChanges();
+            //var tempOrder = _context.Orders.Last(x => x.UserId == user.Id);
+            
             cart.Clear();
-            return Json(new {success = true});
+            ViewBag.SuccessMessage = "Order has been placed successfully";
+            return View("Index", cart);
+        }
+
+        private List<OrderProduct> createOrderProductList(Order order)
+        {
+            List<OrderProduct> orderProducts = new List<OrderProduct>();
+            var products = _context.Products.ToList();
+            foreach (var item in cart)
+            {
+                orderProducts.Add(new OrderProduct
+                {
+                    Order = order,
+                    Product = products.Find(x=> x.Id == item.Id),
+                    Quantity = item.Quantity
+                });
+            }
+            return orderProducts;
         }
     }
 }

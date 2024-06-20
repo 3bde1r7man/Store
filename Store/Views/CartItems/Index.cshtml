@@ -4,7 +4,23 @@
 }
 
 <h2>@ViewData["Title"]</h2>
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @ViewBag.ErrorMessage
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @ViewBag.SuccessMessage
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <div id="cart">
+    
     @if (Model.Count() == 0)
     {
         <p>Your cart is empty</p>
@@ -27,7 +43,9 @@
             }
         </ul>
         <p>Total: $<span id="total-price">@Model.Sum(item => item.Price * item.Quantity)</span></p>
-        <button id="checkout-button" class="btn btn-primary">Checkout</button>
+        <form asp-controller="CartItems" asp-action="Checkout" method="post">
+            <button type="submit" class="btn btn-primary">Checkout</button>
+        </form>
     }
 </div>
 
