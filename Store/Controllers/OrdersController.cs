@@ -59,7 +59,7 @@ namespace Store.Controllers
                 .Include(op => op.Product)
                 .Where(op => op.OrderId == id)
                 .ToListAsync();
-            var model = new DetailsModel(_context)
+            var model = new DetailsModel
             {
                 Order = order,
                 OrderProducts = orderProducts
@@ -145,7 +145,7 @@ namespace Store.Controllers
                 return NotFound();
             }
 
-            var model = new DeleteModel(_context)
+            var model = new DeleteModel
             {
                 Order = order,
                 OrderProducts = orderProducts
