@@ -59,12 +59,12 @@ namespace Store.Controllers
                 .Include(op => op.Product)
                 .Where(op => op.OrderId == id)
                 .ToListAsync();
-            var moder = new DetailsModel(_context)
+            var model = new DetailsModel(_context)
             {
                 Order = order,
                 OrderProducts = orderProducts
             };
-            return View(moder);
+            return View(model);
         }
        
 
