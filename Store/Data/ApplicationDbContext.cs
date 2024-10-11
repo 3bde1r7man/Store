@@ -14,23 +14,30 @@ namespace Store.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderProduct> orderProducts { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        private readonly IConfiguration _configuration;
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration)
+        : base(options)
         {
+            _configuration = configuration;
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string projectRootDirectory = Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.Parent.FullName;
-            string databaseDirectory = Path.Combine(projectRootDirectory, "db");
-
-            // Ensure the 'dp' directory exists
-            if (!Directory.Exists(databaseDirectory))
+            // Use the connection string from appsettings.json if it's configured
+            if (!optionsBuilder.IsConfigured)
             {
-                Directory.CreateDirectory(databaseDirectory);
-            }
+                var connectionString = _configuration.GetConnectionString("DefaultConnection");
 
-            string databasePath = Path.Combine(databaseDirectory, "StoreDB.db");
-            optionsBuilder.UseSqlite($"Data Source={databasePath}");
+                // Use the connection string if available
+                if (!string.IsNullOrWhiteSpace(connectionString))
+                {
+                    optionsBuilder.UseSqlite(connectionString);
+                }
+                else
+                {
+                    throw new Exception("No connection string found in appsettings.json");
+                }
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

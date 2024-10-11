@@ -14,11 +14,19 @@
             <h5 class="card-title">@item.Name</h5>
             <p class="card-text">@item.Description</p>
             <p class="card-text">$@item.Price</p>
-
-            <button class="btn btn-primary"
-                    onclick="addItemToCart(@item.Id, '@item.Name', @item.Price)">
-                Add to Cart
-            </button>
+            @if (User.Identity.IsAuthenticated)
+			{
+				<button class="btn btn-primary"
+						onclick="addItemToCart(@item.Id, '@item.Name', @item.Price)">
+					Add to Cart
+				</button>
+			}
+			else
+			{
+				<button class="btn btn-primary" disabled>
+					Add to Cart
+				</button>
+			}
         </div>
     </div>
 }
